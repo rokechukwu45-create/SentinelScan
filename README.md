@@ -105,18 +105,3 @@ if __name__ == "__main__":
 ```
 ## License
 This project is licensed under the Apache License 2.0. It is intended strictly for authorized security testing, compliance auditing, and educational evaluation. Pre-verified authorization is required by platform Terms of Service before scanning external cloud interfaces.
-```
-
-***
-
-### How to apply this to your project repository:
-1. In Termux, make sure you are in your project directory: `cd /storage/emulated/0/spider/SentinelScan`
-2. Create or overwrite the file: `nano README.md`
-3. Paste the contents above, save (`Ctrl + O`, `Enter`), and exit (`Ctrl + X`).
-4. Update GitHub using your regular three commands:
-   ```bash
-   git add README.md
-   git commit -m "Added comprehensive documentation README"
-   git push
-
-```
