@@ -1,12 +1,10 @@
-# SentinelScan
 
-```markdown
-# CloudID-Hunter (SentinelScan)
+# SentinelScan
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 
-**CloudID-Hunter** (packaged as `sentinelscan`) is a zero-dependency, highly concurrent command-line interface (CLI) tool and library written in pure Python. It is designed for ethical hackers, penetration testers, and security engineers to discover, audit, and flag exposed cloud metadata fabrics, link-local configuration leaks, and service tokens from AWS, GCP, Azure, DigitalOcean, and Kubernetes environments.
+**SentinelScan** is a zero-dependency, highly concurrent command-line interface (CLI) tool and library written in pure Python. It is designed for ethical hackers, penetration testers, and security engineers to discover, audit, and flag exposed cloud metadata fabrics, link-local configuration leaks, and service tokens from AWS, GCP, Azure, DigitalOcean, and Kubernetes environments.
 
 Features a multi-layered detection engine combining bounded, ReDoS-safe regular expressions with an advanced noise-reduction filter (Shannon entropy analysis, test-placeholder filtering, and structural JWT validation) to keep false positives to an absolute minimum.
 
@@ -31,9 +29,9 @@ pip install git+[https://github.com/rokechukwu45-create/SentinelScan.git](https:
 
 ```
 ## CLI Usage & Arguments
-Once installed, you can invoke the tool directly using either the cloudid-hunter executable or via Python's module runner:
+Once installed, you can invoke the tool directly using either the sentinelscan executable or via Python's module runner:
 ```bash
-cloudid-hunter [OPTIONS]
+sentinelscan [OPTIONS]
 # OR
 python -m sentinelscan [OPTIONS]
 
@@ -51,31 +49,65 @@ python -m sentinelscan [OPTIONS]
 ### Example CLI Commands
 **Scan the local machine / container context with customized timeout rules:**
 ```bash
-cloudid-hunter --workers 30 --timeout 2.5
+sentinelscan --workers 30 --timeout 2.5
 
 ```
 **Perform an SSRF/Proxy assessment against a remote web asset, printing output to a JSON file:**
 ```bash
-cloudid-hunter --target "[http://example.com/proxy?url=](http://example.com/proxy?url=)" --output json > results.json
+sentinelscan --target "[http://example.com/proxy?url=](http://example.com/proxy?url=)" --output json > results.json
 
 ```
 ## Importing into Your Code
-You can integrate sentinelscan directly into your custom Python tooling, automated scanning pipelines, or orchestration layers.
+You can easily trigger sentinelscan programmatically within your own automation scripts, automated pipelines, or scheduled tools by importing its execution engine and feeding it custom CLI arguments:
 ```python
-from sentinelscan.scanner import MetadataTarget, CloudIDHunter, _build_local_targets
+import sys
+from sentinelscan import main
 
-def run_custom_security_scan():
-    # 1. Gather target instances (using default local link-local configurations)
-    targets = _build_local_targets()
+def run_automated_audit():
+    print("[*] Initiating SentinelScan cloud metadata security check...")
     
-    # 2. Alternatively, construct individual specific targets dynamically
-    # custom_target = MetadataTarget(
-    #     provider="AWS Custom", 
-    #     url="[http://169.254.169.254/latest/meta-data/](http://169.254.169.254/latest/meta-data/)", 
-    #     headers=None, 
-    #     description="Custom AWS Assessment Root"
-    # )
-    # targets.append(custom_target)
+    # Pass arguments exactly as you would on the command line
+    arguments = ["--workers", "15", "--timeout", "3.0"]
+    
+    # Example: scanning a specific remote proxy or SSRF vector instead
+    # arguments = ["--target", "[http://example.com/proxy?url=](http://example.com/proxy?url=)", "--output", "json"]
+    
+    try:
+        # main handles argument arrays cleanly and returns the standard Unix exit status
+        exit_code = main(arguments)
+        if exit_code == 0:
+            print("[+] Scan completed. No exposed infrastructure fabrics flagged.")
+        else:
+            print(f"[!] Scan finished with findings or issues. Exit code: {exit_code}")
+    except Exception as e:
+        print(f"[-] Execution framework failed: {e}")
+
+if __name__ == "__main__":
+    run_automated_audit()
+
+```
+## License
+This project is licensed under the Apache License 2.0. It is intended strictly for authorized security testing, compliance auditing, and educational evaluation. Pre-verified authorization is required by platform Terms of Service before scanning external cloud interfaces.
+```
+
+***
+
+### Step-by-Step commands to put this on GitHub:
+
+1. Open `README.md` inside your directory:
+   ```bash
+   nano README.md
+
+```
+ 2. Copy the code block above and paste it inside the file.
+ 3. Save and close Nano (Ctrl + O, Enter, then Ctrl + X).
+ 4. Commit the change and push it up to your repository:
+   ```bash
+   git add README.md
+   git commit -m "Update README with correct package name and import method"
+   git push
+   
+   ```
 
     # 3. Initialize the orchestrator engine
     scanner = CloudIDHunter(
